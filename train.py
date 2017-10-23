@@ -253,8 +253,8 @@ def train(learn_rate, report_steps, batch_size, initial_weights=None):
             return last_weights
         
         constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph_def, ["output"]) #out_softmax
-            with tf.gfile.FastGFile("output/mnist-test.pb",mode='wb') as f:
-                f.write(constant_graph.SerializeToString())
+        with tf.gfile.FastGFile("output/mnist-test.pb",mode='wb') as f:
+             f.write(constant_graph.SerializeToString())
 
 
 if __name__ == "__main__":
