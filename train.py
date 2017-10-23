@@ -47,6 +47,7 @@ import tensorflow as tf
 import common
 import gen
 import model
+from tensorflow.python.framework import graph_util
 
 
 def code_to_vec(p, code):
@@ -250,6 +251,10 @@ def train(learn_rate, report_steps, batch_size, initial_weights=None):
             last_weights = [p.eval() for p in params]
             numpy.savez("weights.npz", *last_weights)
             return last_weights
+        
+        constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph_def, ["output"]) #out_softmax
+            with tf.gfile.FastGFile("output/mnist-test.pb",mode='wb') as f:
+                f.write(constant_graph.SerializeToString())
 
 
 if __name__ == "__main__":
